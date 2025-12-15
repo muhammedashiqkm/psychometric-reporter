@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Psychometric Profile</title>
+    
+    <style>
+        :root {
+            --primary-color: #1a2b49; 
+            --secondary-color: #c5a059; 
+            --text-dark: #333333;
+            --text-light: #666666;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+            --success-color: #27ae60;
+            --danger-color: #c0392b;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.5;
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-container {
+            width: 100%;
+            padding: 0px 40px;
+        }
+
+        /* --- Typography --- */
+        h1 {
+            font-family: 'Georgia', serif;
+            color: var(--primary-color);
+            font-size: 28px;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-family: 'Georgia', serif;
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-top: 35px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 12px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 16px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            font-size: 14px;
+            color: var(--text-light);
+            text-align: center;
+            margin: 0 0 15px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Info List --- */
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            display: table;
+            width: 100%;
+        }
+        .info-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: table-row;
+        }
+        .info-list li strong {
+            color: var(--primary-color);
+            font-weight: bold;
+            display: table-cell;
+            width: 160px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .info-list li span {
+            display: table-cell;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- Tables (Fixed Widths) --- */
+        .data-table {
+            width: 100%;
+            table-layout: fixed; /* Enforces strict column widths */
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            page-break-inside: auto;
+        }
+        .data-table th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: left;
+            padding: 10px 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            overflow: hidden;
+        }
+        .data-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+            word-wrap: break-word; 
+        }
+        .data-table tr {
+            page-break-inside: avoid;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+
+        /* --- Progress Bars --- */
+        .progress-container {
+            width: 100%; 
+            max-width: 100px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            height: 8px;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            background-color: var(--secondary-color);
+        }
+        .progress-bar.green { background-color: var(--success-color); }
+        .progress-bar.blue { background-color: var(--primary-color); }
+
+        /* --- Charts Grid System --- */
+        .chart-section {
+            margin: 30px 0 40px 0;
+            page-break-inside: avoid;
+        }
+        
+        /* Standard Card Style */
+        .chart-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            page-break-inside: avoid;
+        }
+
+        /* Full Width Card (For Single Large Graphs) */
+        .full-width-card {
+            width: 100%;
+            display: block;
+            margin-bottom: 20px; /* Spacing if stacked */
+        }
+        
+        /* Image Sizing - LARGE */
+        .full-width-card img {
+            width: auto;
+            max-width: 90%;
+            height: auto;
+            max-height: 500px; /* Maximized height */
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* --- Lists --- */
+        ul.styled-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul.styled-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            page-break-inside: avoid;
+        }
+        ul.styled-list li::before {
+            content: "•";
+            color: var(--secondary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* --- Employability & Footer --- */
+        .employability-box {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            page-break-inside: avoid;
+        }
+        .emp-score {
+            font-size: 42px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            line-height: 1;
+        }
+        .nps-container {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            page-break-inside: avoid;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #f0f4f8;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 5px;
+            border: 1px solid #dbe2e8;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 10px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <h1>Student Psychometric Profile</h1>
+        
+        <ul class="info-list">
+            <li><strong>Name:</strong> <span>{{ student.student_name }}</span></li>
+            <li><strong>Register No:</strong> <span>{{ student.register_no }}</span></li>
+            <li><strong>Programme:</strong> <span>{{ student.programme }}</span></li>
+            <li><strong>Batch:</strong> <span>{{ student.batch }}</span></li>
+            <li><strong>Institution:</strong> <span>{{ student.institution }}</span></li>
+        </ul>
+
+        <section>
+            <h2>Psychometric Assessment Summary</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 6px;">
+                <h3 style="margin-top:0;">Assessment Tools Used:</h3>
+                <ul class="styled-list" style="margin-bottom:0;">
+                    {% for test in tests %}
+                        <li>{{ test.test_name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+        {% for test in tests %}
+        <section>
+            <h2>{{ loop.index }}. {{ test.test_name }}</h2>
+            
+            <table class="data-table">
+                <colgroup>
+                    <col style="width: 30%;">
+                    <col style="width: 20%;">
+                    <col style="width: 50%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Section</th>
+                        <th>Score</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for section in test.sections %}
+                    <tr>
+                        <td>{{ section.section }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center;">
+                                <div class="progress-container">
+                                    <div class="progress-bar {% if test.key_name == 'fourth' %}green{% else %}blue{% endif %}" 
+                                         style="width: {{ section.score_percentage }}%;">
+                                    </div>
+                                </div>
+                                <strong>{{ section.score_percentage|int }}%</strong>
+                            </div>
+                        </td>
+                        <td>{{ section.interpretation }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="chart-section">
+                
+                {% if test.key_name == 'first' and test.charts.radar %}
+                    <div class="chart-card full-width-card">
+                        <h4>INTEREST PROFILE</h4>
+                        <img src="{{ test.charts.radar }}" alt="Interest Profile">
+                    </div>
+                {% endif %}
+
+                {% if test.key_name == 'second' and test.charts.bar %}
+                    <div class="chart-card full-width-card">
+                        <h4>CATEGORY SCORE ANALYSIS</h4>
+                        <img src="{{ test.charts.bar }}" alt="Category Score Analysis">
+                    </div>
+                {% endif %}
+
+                {% if test.key_name == 'third' and test.charts.donut %}
+                     <div class="chart-card full-width-card">
+                        <h4>DETAILED BREAKDOWN</h4>
+                        <img src="{{ test.charts.donut }}" alt="Detailed Breakdown">
+                    </div>
+                {% endif %}
+
+                {% if test.key_name == 'fourth' and test.charts.bar %}
+                    <div class="chart-card full-width-card">
+                        <h4>COMPETENCY WHEEL ANALYSIS</h4>
+                        <img src="{{ test.charts.bar }}" alt="Competency Wheel">
+                    </div>
+                {% endif %}
+
+                {% if test.key_name == 'fifth' %}
+                    
+                    {% if test.charts.bar %}
+                        <div class="chart-card full-width-card">
+                           <h4>CATEGORY SCORE ANALYSIS</h4>
+                           <img src="{{ test.charts.bar }}" alt="Category Score Analysis">
+                       </div>
+                    {% endif %}
+                   
+                    {% if test.charts.vark_circles %}
+                        <div class="chart-card full-width-card">
+                           <h4>LEARNING STYLE</h4>
+                           <img src="{{ test.charts.vark_circles }}" alt="Learning Style Chart">
+                       </div>
+                    {% endif %}
+
+                {% endif %}
+
+            </div>
+        </section>
+        {% endfor %}
+
+        <h2 style="page-break-before: always;">Strategic Analysis & Recommendations</h2>
+        
+        <div style="display: flex; gap: 30px; margin-bottom: 30px;">
+            <div style="flex: 1;">
+                <h3 style="color: var(--success-color); border-bottom: 2px solid var(--success-color);">Key Strengths</h3>
+                <ul class="styled-list">
+                    {% for strength in ai.strengths %}
+                        <li>{{ strength }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div style="flex: 1;">
+                <h3 style="color: var(--danger-color); border-bottom: 2px solid var(--danger-color);">Development Areas</h3>
+                <ul class="styled-list">
+                    {% for area in ai.development_areas %}
+                        <li>{{ area }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div style="background-color: #f8fcfd; border: 1px solid #cceeff; padding: 20px; border-radius: 4px; margin-bottom: 30px;">
+            <h3 style="margin-top:0;">Career Roadmap</h3>
+            
+            <p style="font-size:12px; font-weight:bold; color:#7f8c8d; text-transform:uppercase;">Recommended Roles</p>
+            <div style="margin-bottom: 20px;">
+                {% for role in ai.recommended_roles %}
+                    <span class="badge">{{ role }}</span>
+                {% endfor %}
+            </div>
+
+            <p style="font-size:12px; font-weight:bold; color:#7f8c8d; text-transform:uppercase;">Suggested Certifications</p>
+            <ul class="styled-list" style="margin-bottom:0;">
+                {% for cert in ai.certifications %}
+                    <li>{{ cert }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <h2>Overall Indices</h2>
+        
+        <div class="employability-box">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 100px; text-align: center; border: none; padding-right: 20px;">
+                        <span class="emp-score">{{ ai.employability_score }}</span>
+                        <div style="font-size: 10px; text-transform: uppercase; margin-top: 5px;">Score</div>
+                    </td>
+                    <td style="border: none; border-left: 1px solid rgba(255,255,255,0.3); padding-left: 20px;">
+                        <h3 style="color: var(--secondary-color); margin:0; font-size: 18px;">Employability Index</h3>
+                        <p style="color: #f0f0f0; margin: 5px 0 0 0; font-size: 13px;">{{ ai.employability_text }}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="nps-container">
+            <h3 style="margin-top:0;">Net Promoter Score (NPS)</h3>
+            {% if ai.nps_chart %}
+                <img src="{{ ai.nps_chart }}" style="width: 100%; max-width: 500px; height: auto;" alt="NPS Gauge">
+            {% endif %}
+        </div>
+
+        <div class="footer">
+            <p>Generated by AI Psychometric Analysis Tool | Confidential Student Report</p>
+            <p>&copy; 2025 Psychometric Systems. All Rights Reserved.</p>
+        </div>
+
+    </div>
+</body>
+</html>
