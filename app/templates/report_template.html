@@ -300,7 +300,7 @@
                         <td>
                             <div style="display: flex; align-items: center;">
                                 <div class="progress-container">
-                                    <div class="progress-bar {% if test.key_name == 'fourth' %}green{% else %}blue{% endif %}" 
+                                    <div class="progress-bar blue" 
                                          style="width: {{ section.score_percentage }}%;">
                                     </div>
                                 </div>
@@ -359,6 +359,13 @@
                        </div>
                     {% endif %}
 
+                {% endif %}
+
+                {% if test.key_name == 'default' and test.charts.bar %}
+                    <div class="chart-card full-width-card">
+                        <h4>WORKPLACE SKILLS & COMPETENCIES</h4>
+                        <img src="{{ test.charts.bar }}" alt="Variable Radius Chart">
+                    </div>
                 {% endif %}
 
             </div>

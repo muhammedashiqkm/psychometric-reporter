@@ -61,8 +61,10 @@ class TestProcessor:
 
         charts = {}
         if scores:
+            # 1. Standard Bar Chart (Default)
             charts['bar'] = ChartFactory.generate_bar_chart(labels, scores, color="#4a90e2")
 
+            # 2. Key-Specific Logic
             if raw_test.key_name == "first":
                 charts['radar'] = ChartFactory.generate_radar_chart(labels, scores)
             
@@ -74,6 +76,10 @@ class TestProcessor:
 
             elif raw_test.key_name == "fifth":
                 charts['vark_circles'] = ChartFactory.generate_vark_circles(scores, labels)
+
+            # --- UPDATED: Default Key gets Variable Radius Chart ---
+            elif raw_test.key_name == "default":
+                charts['bar'] = ChartFactory.generate_variable_radius_chart(labels, scores)
                 
         return ProcessedTest(
             test_name=test_name,
