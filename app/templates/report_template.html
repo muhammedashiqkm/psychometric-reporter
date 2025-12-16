@@ -85,23 +85,23 @@
             width: 100%;
         }
         .info-list li {
-    padding: 8px 0;
-    display: table-row;
-    border-bottom: none;
-}
+            padding: 8px 0;
+            display: table-row;
+            border-bottom: none;
+        }
 
-.info-list li strong {
-    display: table-cell;
-    width: 160px;
-    padding-bottom: 8px;
-    border-bottom: none;
-}
+        .info-list li strong {
+            display: table-cell;
+            width: 160px;
+            padding-bottom: 8px;
+            border-bottom: none;
+        }
 
-.info-list li span {
-    display: table-cell;
-    padding-bottom: 8px;
-    border-bottom: none;
-}
+        .info-list li span {
+            display: table-cell;
+            padding-bottom: 8px;
+            border-bottom: none;
+        }
 
 
         /* --- Tables (Fixed Widths) --- */
@@ -158,6 +158,7 @@
         .chart-section {
             margin: 30px 0 40px 0;
             page-break-inside: avoid;
+            text-align: center; 
         }
         
         /* Standard Card Style */
@@ -169,21 +170,23 @@
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             page-break-inside: avoid;
+            display: inline-block; 
+            width: 90%; 
         }
 
         /* Full Width Card (For Single Large Graphs) */
         .full-width-card {
             width: 100%;
             display: block;
-            margin-bottom: 20px; /* Spacing if stacked */
+            margin-bottom: 20px;
         }
         
         /* Image Sizing - LARGE */
-        .full-width-card img {
+        .chart-card img {
             width: auto;
-            max-width: 90%;
+            max-width: 100%;
             height: auto;
-            max-height: 500px; /* Maximized height */
+            max-height: 500px;
             display: block;
             margin: 0 auto;
         }
@@ -217,7 +220,7 @@
             page-break-inside: avoid;
         }
         
-        .nps-container {
+        .gauge-container {
             text-align: center;
             margin-top: 20px;
             padding: 20px;
@@ -228,17 +231,17 @@
         }
 
       .badge {
-    display: inline-block;
-    padding: 6px 14px;
-    background: #f0f4f8;
-    border-radius: 16px;
-    font-size: 12px;
-    margin: 6px 8px 6px 0;
-    border: 1px solid #dbe2e8;
-    color: var(--primary-color);
-    font-weight: 600;
-    white-space: nowrap;
-}
+            display: inline-block;
+            padding: 6px 14px;
+            background: #f0f4f8;
+            border-radius: 16px;
+            font-size: 12px;
+            margin: 6px 8px 6px 0;
+            border: 1px solid #dbe2e8;
+            color: var(--primary-color);
+            font-weight: 600;
+            white-space: nowrap;
+        }
 
         .footer {
             margin-top: 50px;
@@ -257,9 +260,19 @@
         
         <ul class="info-list">
             <li><strong>Name:</strong> <span>{{ student.student_name }}</span></li>
-            <li><strong>Email:</strong> <span>{{ student.email }}</span></li>
-            <li><strong>Programme:</strong> <span>{{ student.programme }}</span></li>
-            <li><strong>Batch:</strong> <span>{{ student.batch }}</span></li>
+            
+            {% if student.email %}
+                <li><strong>Email:</strong> <span>{{ student.email }}</span></li>
+            {% endif %}
+
+            {% if student.programme %}
+                <li><strong>Programme:</strong> <span>{{ student.programme }}</span></li>
+            {% endif %}
+
+            {% if student.batch %}
+                <li><strong>Batch:</strong> <span>{{ student.batch }}</span></li>
+            {% endif %}
+
             <li><strong>Institution:</strong> <span>{{ student.institution }}</span></li>
         </ul>
 
@@ -317,53 +330,44 @@
                 {% if test.key_name == 'first' and test.charts.radar %}
                     <div class="chart-card full-width-card">
                         <h4>Personality Trait Profile</h4>
-                        <img src="{{ test.charts.radar }}" alt="Interest Profile">
+                        <img src="{{ test.charts.radar }}" alt="Radar Chart">
                     </div>
                 {% endif %}
 
                 {% if test.key_name == 'second' and test.charts.bar %}
                     <div class="chart-card full-width-card">
                         <h4>Cognitive Ability Profile</h4>
-                        <img src="{{ test.charts.bar }}" alt="Category Score Analysis">
+                        <img src="{{ test.charts.bar }}" alt="Bar Chart">
                     </div>
                 {% endif %}
 
                 {% if test.key_name == 'third' and test.charts.donut %}
                      <div class="chart-card full-width-card">
                         <h4>Career Interest Profile (RIASEC)</h4>
-                        <img src="{{ test.charts.donut }}" alt="Detailed Breakdown">
+                        <img src="{{ test.charts.donut }}" alt="Radial Bar Chart">
                     </div>
                 {% endif %}
 
-                {% if test.key_name == 'fourth' and test.charts.bar %}
+                {% if test.key_name == 'fourth' and test.charts.seven_segment %}
                     <div class="chart-card full-width-card">
                         <h4>Emotional Intelligence Profile</h4>
-                        <img src="{{ test.charts.bar }}" alt="Competency Wheel">
+                        <img src="{{ test.charts.seven_segment }}" alt="Seven Segment Chart">
                     </div>
                 {% endif %}
 
                 {% if test.key_name == 'fifth' %}
-                    
-                    {% if test.charts.bar %}
-                        <div class="chart-card full-width-card">
-                           <h4>CATEGORY SCORE ANALYSIS</h4>
-                           <img src="{{ test.charts.bar }}" alt="Category Score Analysis">
-                       </div>
-                    {% endif %}
-                   
                     {% if test.charts.vark_circles %}
                         <div class="chart-card full-width-card">
                            <h4>LEARNING STYLE</h4>
-                           <img src="{{ test.charts.vark_circles }}" alt="Learning Style Chart">
+                           <img src="{{ test.charts.vark_circles }}" alt="VARK Chart">
                        </div>
                     {% endif %}
-
                 {% endif %}
 
-                {% if test.key_name == 'default' and test.charts.bar %}
+                {% if test.charts.variable_radius %}
                     <div class="chart-card full-width-card">
                         <h4>CATEGORY SCORE ANALYSIS</h4>
-                        <img src="{{ test.charts.bar }}" alt="Variable Radius Chart">
+                        <img src="{{ test.charts.variable_radius }}" alt="Variable Radius Chart">
                     </div>
                 {% endif %}
 
@@ -412,10 +416,10 @@
 
         <h2>Overall Indices</h2>
 
-        <div class="nps-container">
+        <div class="gauge-container">
             <h3 style="margin-top:0;">Employability Index Score</h3>
-            {% if ai.nps_chart %}
-                <img src="{{ ai.nps_chart }}" style="width: 100%; max-width: 500px; height: auto;" alt="NPS Gauge">
+            {% if ai.employability_chart %}
+                <img src="{{ ai.employability_chart }}" style="width: 100%; max-width: 500px; height: auto;" alt="Employability Gauge">
             {% endif %}
         </div>
         
@@ -437,11 +441,8 @@
             </table>
         </div>
 
-        
-
         <div class="footer">
             <p>Generated by AI Psychometric Analysis Tool | Confidential Student Report</p>
-            <p>&copy; 2025 Psychometric Systems. All Rights Reserved.</p>
         </div>
 
     </div>

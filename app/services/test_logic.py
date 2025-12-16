@@ -11,7 +11,7 @@ class TestProcessor:
                 if den == 0: return 0.0
                 return round((num / den) * 100, 1)
             return float(score_str)
-        except:
+        except (ValueError, TypeError):
             return 0.0
 
     @staticmethod
@@ -27,29 +27,28 @@ class TestProcessor:
         labels = []
         scores = []
 
-        sections = raw_test.parsed_sections
-        
         test_name = raw_test.category
+        test_description = ""
+        
         if raw_test.json_result:
             try:
                 data = json.loads(raw_test.json_result)
-                test_name = data.get("test_name", raw_test.category)
-            except:
+                if isinstance(data, dict):
+                    test_name = data.get("test_name", test_name)
+                    test_description = data.get("description", "")
+            except json.JSONDecodeError:
                 pass
 
+        sections = raw_test.parsed_sections
         for section in sections:
             pct = cls.parse_score(section.section_score)
             labels.append(section.section)
             scores.append(pct)
-            
             benchmark = cls.get_benchmark(pct)
             
-            if section.interpretation:
-                interp = section.interpretation
-            elif section.representation:
-                interp = section.representation
-            else:
-                interp = section.description
+            interp = section.interpretation
+            if not interp:
+                interp = section.description or section.representation or "No interpretation available."
 
             processed_sections.append(ProcessedSection(
                 section=section.section,
@@ -61,28 +60,29 @@ class TestProcessor:
 
         charts = {}
         if scores:
-            # 1. Standard Bar Chart (Default)
-            charts['bar'] = ChartFactory.generate_bar_chart(labels, scores, color="#4a90e2")
+            key = raw_test.key_name.lower() if raw_test.key_name else "default"
 
-            # 2. Key-Specific Logic
-            if raw_test.key_name == "first":
+            if key == "second":
+                charts['bar'] = ChartFactory.generate_bar_chart(labels, scores, color="#4a90e2")
+            
+            elif key == "first":
                 charts['radar'] = ChartFactory.generate_radar_chart(labels, scores)
             
-            elif raw_test.key_name == "third":
+            elif key == "third":
                 charts['donut'] = ChartFactory.generate_radial_bar_chart(labels, scores)
             
-            elif raw_test.key_name == "fourth":
-                charts['bar'] = ChartFactory.generate_seven_segment_chart(labels, scores)
+            elif key == "fourth":
+                charts['seven_segment'] = ChartFactory.generate_seven_segment_chart(labels, scores)
 
-            elif raw_test.key_name == "fifth":
+            elif key == "fifth":
                 charts['vark_circles'] = ChartFactory.generate_vark_circles(scores, labels)
 
-            # --- UPDATED: Default Key gets Variable Radius Chart ---
-            elif raw_test.key_name == "default":
-                charts['bar'] = ChartFactory.generate_variable_radius_chart(labels, scores)
+            else:
+                charts['variable_radius'] = ChartFactory.generate_variable_radius_chart(labels, scores)
                 
         return ProcessedTest(
             test_name=test_name,
+            description=test_description,
             key_name=raw_test.key_name,
             sections=processed_sections,
             charts=charts
