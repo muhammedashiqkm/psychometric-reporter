@@ -2,7 +2,7 @@ FROM python:3.11-slim-bullseye
 
 ENV PYTHONUNBUFFERED=1
 
-# Added --fix-missing to handle network hiccups
+
 RUN apt-get update && apt-get install -y --fix-missing \
     wkhtmltopdf \
     fonts-liberation \
