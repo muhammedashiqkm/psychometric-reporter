@@ -130,16 +130,37 @@ STUDENT PROFILE & TEST DATA
 ANALYSIS OBJECTIVES
 ========================
 1. Analyze the specific psychometric results provided above.
-2. Identify employability strengths and limitations based ONLY on these scores.
+2. Identify employability strengths and development areas based ONLY on these results.
 3. Assess real-world job readiness from an employer’s perspective.
-4. If a 'Learning Style' (fifth key) test exists, analyze the scores.
+4. If a Learning Style (VARK / fifth key) test exists, interpret how the student learns best.
 
 ========================
-SCORING RULES
+EMPLOYABILITY SCORING GUIDELINES
 ========================
-A. employability_score (0–100): Evaluate readiness (do not just average).
-B. nps_score (–100 to 100): Recommendation likelihood.
-C. vark_descriptions: Generate 4 personalized sentences [Visual, Auditory, Read/Write, Kinesthetic].
+- Generate a single **employability_score (0–100)**.
+- Do NOT calculate a simple average.
+- Base the score on:
+  • Balance of skills across sections  
+  • Presence of critical job-impacting strengths or weaknesses  
+  • Practical workplace readiness  
+  • Risk factors an employer would notice  
+- Penalize severe gaps in essential skills even if other scores are high.
+- Reward consistency, adaptability, and role-readiness.
+
+========================
+VARK LEARNING STYLE INSTRUCTIONS
+========================
+Provide **one clear, simple sentence** for each learning style explaining:
+- How the student learns best
+- What type of learning method suits them most
+
+Keep the explanations:
+- Direct and student-friendly
+- Practical and usage-focused
+- Based strictly on the provided VARK scores
+- Avoid learning theory or textbook definitions
+- If score data is missing, state that the preference cannot be determined
+
 
 ========================
 OUTPUT FORMAT (STRICT JSON)
@@ -151,10 +172,15 @@ OUTPUT FORMAT (STRICT JSON)
   "certifications": ["string", "string"],
   "employability_score": integer,
   "employability_text": "Professional summary in max 3 sentences.",
-  "nps_score": integer,
-  "vark_descriptions": ["Visual Desc", "Auditory Desc", "R/W Desc", "Kinesthetic Desc"]
+  "vark_descriptions": [
+    "Visual: ...",
+    "Auditory: ...",
+    "Read/Write: ...",
+    "Kinesthetic: ..."
+  ]
 }}
 """
+
 
     try:
         provider = getattr(data, 'model', 'gemini').lower()

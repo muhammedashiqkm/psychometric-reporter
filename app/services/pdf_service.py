@@ -25,7 +25,7 @@ def generate_pdf(student: StudentDetailsInput, tests: list[ProcessedTest], ai_re
 
     student_context = {
         "student_name": student.student_name,
-        "register_no": student.register_no,
+        "email": student.email,
         "programme": student.course_name if student.course_name else "N/A",
         "institution": student.institution,
         "batch": student.batch if student.batch else "N/A",

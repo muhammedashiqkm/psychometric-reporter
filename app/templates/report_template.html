@@ -85,23 +85,24 @@
             width: 100%;
         }
         .info-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
-            display: table-row;
-        }
-        .info-list li strong {
-            color: var(--primary-color);
-            font-weight: bold;
-            display: table-cell;
-            width: 160px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .info-list li span {
-            display: table-cell;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
+    padding: 8px 0;
+    display: table-row;
+    border-bottom: none;
+}
+
+.info-list li strong {
+    display: table-cell;
+    width: 160px;
+    padding-bottom: 8px;
+    border-bottom: none;
+}
+
+.info-list li span {
+    display: table-cell;
+    padding-bottom: 8px;
+    border-bottom: none;
+}
+
 
         /* --- Tables (Fixed Widths) --- */
         .data-table {
@@ -215,12 +216,7 @@
             margin-top: 20px;
             page-break-inside: avoid;
         }
-        .emp-score {
-            font-size: 42px;
-            font-weight: bold;
-            color: var(--secondary-color);
-            line-height: 1;
-        }
+        
         .nps-container {
             text-align: center;
             margin-top: 20px;
@@ -230,17 +226,20 @@
             border-radius: 8px;
             page-break-inside: avoid;
         }
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background: #f0f4f8;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-right: 5px;
-            border: 1px solid #dbe2e8;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
+
+      .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #f0f4f8;
+    border-radius: 16px;
+    font-size: 12px;
+    margin: 6px 8px 6px 0;
+    border: 1px solid #dbe2e8;
+    color: var(--primary-color);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
         .footer {
             margin-top: 50px;
             text-align: center;
@@ -258,7 +257,7 @@
         
         <ul class="info-list">
             <li><strong>Name:</strong> <span>{{ student.student_name }}</span></li>
-            <li><strong>Register No:</strong> <span>{{ student.register_no }}</span></li>
+            <li><strong>Email:</strong> <span>{{ student.email }}</span></li>
             <li><strong>Programme:</strong> <span>{{ student.programme }}</span></li>
             <li><strong>Batch:</strong> <span>{{ student.batch }}</span></li>
             <li><strong>Institution:</strong> <span>{{ student.institution }}</span></li>
@@ -317,28 +316,28 @@
                 
                 {% if test.key_name == 'first' and test.charts.radar %}
                     <div class="chart-card full-width-card">
-                        <h4>INTEREST PROFILE</h4>
+                        <h4>Personality Trait Profile</h4>
                         <img src="{{ test.charts.radar }}" alt="Interest Profile">
                     </div>
                 {% endif %}
 
                 {% if test.key_name == 'second' and test.charts.bar %}
                     <div class="chart-card full-width-card">
-                        <h4>CATEGORY SCORE ANALYSIS</h4>
+                        <h4>Cognitive Ability Profile</h4>
                         <img src="{{ test.charts.bar }}" alt="Category Score Analysis">
                     </div>
                 {% endif %}
 
                 {% if test.key_name == 'third' and test.charts.donut %}
                      <div class="chart-card full-width-card">
-                        <h4>DETAILED BREAKDOWN</h4>
+                        <h4>Career Interest Profile (RIASEC)</h4>
                         <img src="{{ test.charts.donut }}" alt="Detailed Breakdown">
                     </div>
                 {% endif %}
 
                 {% if test.key_name == 'fourth' and test.charts.bar %}
                     <div class="chart-card full-width-card">
-                        <h4>COMPETENCY WHEEL ANALYSIS</h4>
+                        <h4>Emotional Intelligence Profile</h4>
                         <img src="{{ test.charts.bar }}" alt="Competency Wheel">
                     </div>
                 {% endif %}
@@ -363,7 +362,7 @@
 
                 {% if test.key_name == 'default' and test.charts.bar %}
                     <div class="chart-card full-width-card">
-                        <h4>WORKPLACE SKILLS & COMPETENCIES</h4>
+                        <h4>CATEGORY SCORE ANALYSIS</h4>
                         <img src="{{ test.charts.bar }}" alt="Variable Radius Chart">
                     </div>
                 {% endif %}
@@ -372,7 +371,7 @@
         </section>
         {% endfor %}
 
-        <h2 style="page-break-before: always;">Strategic Analysis & Recommendations</h2>
+        <h2 >Strategic Analysis & Recommendations</h2>
         
         <div style="display: flex; gap: 30px; margin-bottom: 30px;">
             <div style="flex: 1;">
@@ -412,28 +411,33 @@
         </div>
 
         <h2>Overall Indices</h2>
+
+        <div class="nps-container">
+            <h3 style="margin-top:0;">Employability Index Score</h3>
+            {% if ai.nps_chart %}
+                <img src="{{ ai.nps_chart }}" style="width: 100%; max-width: 500px; height: auto;" alt="NPS Gauge">
+            {% endif %}
+        </div>
         
         <div class="employability-box">
             <table style="width: 100%;">
                 <tr>
-                    <td style="width: 100px; text-align: center; border: none; padding-right: 20px;">
-                        <span class="emp-score">{{ ai.employability_score }}</span>
-                        <div style="font-size: 10px; text-transform: uppercase; margin-top: 5px;">Score</div>
-                    </td>
-                    <td style="border: none; border-left: 1px solid rgba(255,255,255,0.3); padding-left: 20px;">
-                        <h3 style="color: var(--secondary-color); margin:0; font-size: 18px;">Employability Index</h3>
-                        <p style="color: #f0f0f0; margin: 5px 0 0 0; font-size: 13px;">{{ ai.employability_text }}</p>
+                    <td style="border: none; padding: 10px 20px;">
+                        
+                        <h3 style="color: var(--secondary-color); margin: 0 0 15px 0; font-size: 18px; text-align: center;">
+                            Employability Index
+                        </h3>
+                        
+                        <p style="color: #f0f0f0; margin: 0; font-size: 13px; text-align: left; line-height: 1.6;">
+                            {{ ai.employability_text }}
+                        </p>
+                        
                     </td>
                 </tr>
             </table>
         </div>
 
-        <div class="nps-container">
-            <h3 style="margin-top:0;">Net Promoter Score (NPS)</h3>
-            {% if ai.nps_chart %}
-                <img src="{{ ai.nps_chart }}" style="width: 100%; max-width: 500px; height: auto;" alt="NPS Gauge">
-            {% endif %}
-        </div>
+        
 
         <div class="footer">
             <p>Generated by AI Psychometric Analysis Tool | Confidential Student Report</p>

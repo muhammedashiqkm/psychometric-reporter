@@ -429,7 +429,7 @@ class ChartFactory:
         ax.add_patch(plt.Circle((0, 0), needle_width, color=c_needle, zorder=11))
 
         ax.text(0, -0.65, f"{value}", ha='center', va='center', fontsize=45, fontweight='bold', color='black')
-        ax.text(0, -0.85, "NPS", ha='center', va='center', fontsize=16, fontweight='bold', color='black')
+
 
         ax.set_aspect('equal')
         plt.axis('off')
