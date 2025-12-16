@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 from typing import List, Optional, Literal
 import json
+
 
 class SectionData(BaseModel):
     section: str
@@ -35,11 +36,17 @@ class StudentDetailsInput(BaseModel):
     student_name: str = Field(..., alias="StudentName")
     register_no: str = Field(..., alias="RegisterNo")
     institution: str = Field(..., alias="InstitutionName")
+    
     course_name: Optional[str] = Field(None, alias="CourseName")
     email: Optional[str] = Field(None, alias="Email")
     batch: Optional[str] = Field(None, alias="Batch")
     psychometric_data: List[RawPsychometricTest] = Field(..., alias="StudentPsychometricCategoryDetailsForPortfolioData")
+    
+    model: Literal["gemini", "openai", "deepseek"] = "gemini" 
+
+class ReportRequest(BaseModel):
     model: Literal["gemini", "openai", "deepseek"] = "gemini"
+    profile_url: HttpUrl = Field(..., alias="ProfileURL")
 
 class ProcessedSection(BaseModel):
     section: str
@@ -50,7 +57,7 @@ class ProcessedSection(BaseModel):
 
 class ProcessedTest(BaseModel):
     test_name: str
-    description: Optional[str] = None  
+    description: Optional[str] = None
     key_name: str
     sections: List[ProcessedSection]
     charts: dict
